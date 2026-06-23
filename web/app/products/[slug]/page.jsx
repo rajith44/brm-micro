@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import ProductActions from "@/components/ProductActions";
 import ProductGallery from "@/components/ProductGallery";
-import ProductCard from "@/components/ProductCard";
+import ProductCarousel from "@/components/ProductCarousel";
 import { allProducts, getProduct, getProductImages } from "@/lib/data";
 
 export function generateStaticParams() {
@@ -22,9 +22,10 @@ export default function ProductPage({ params }) {
   const product = getProduct(params.slug);
   if (!product) notFound();
 
-  const related = allProducts
-    .filter((p) => p.type === product.type && p.id !== product.id)
-    .slice(0, 4);
+  const pool = allProducts.filter((p) => p.type === product.type && p.id !== product.id);
+  const sameCategory = pool.filter((p) => p.category === product.category);
+  const others = pool.filter((p) => p.category !== product.category);
+  const related = [...sameCategory, ...others].slice(0, 12);
 
   const images = getProductImages(product);
 
@@ -123,11 +124,7 @@ export default function ProductPage({ params }) {
       {related.length > 0 && (
         <section className="max-w-7xl mx-auto px-4 lg:px-8 py-10 lg:py-16">
           <h2 className="font-cormorant text-3xl mb-8">You may also like</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
-            {related.map((p) => (
-              <ProductCard key={p.id} product={p} />
-            ))}
-          </div>
+          <ProductCarousel products={related} />
         </section>
       )}
     </>

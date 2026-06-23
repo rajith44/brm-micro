@@ -89,7 +89,8 @@ h6,
 .reviewsSwiper .swiper-slide,
 .trustSwiper .swiper-slide,
 .gemSwiper .swiper-slide,
-.jewelrySwiper .swiper-slide {
+.jewelrySwiper .swiper-slide,
+.productSwiper .swiper-slide {
   height: auto;
 }
 .reviewsSwiper .swiper-pagination-bullet {
