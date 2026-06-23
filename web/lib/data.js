@@ -4,6 +4,9 @@
 const img = (w, h, text) =>
   `https://placehold.co/${w}x${h}?text=${encodeURIComponent(text)}`;
 
+// Store contact — WhatsApp number in international format, digits only.
+export const whatsappNumber = "94771234567";
+
 export const coloredGemstones = [
   { name: "Alexandrite", slug: "alexandrite", image: "/coloredGems/alexandrite.png" },
   { name: "Amethyst", slug: "amethyst", image: "/coloredGems/amethyst.png" },
@@ -109,6 +112,20 @@ export const allProducts = [
 
 export function getProduct(id) {
   return allProducts.find((p) => p.id === id);
+}
+
+// Gallery for the product detail page. Uses an explicit `images` array when a
+// product defines one, otherwise falls back to the primary image plus a few
+// placeholder angle shots so the gallery + lightbox have content to show.
+export function getProductImages(product) {
+  if (product?.images?.length) return product.images;
+  const label = encodeURIComponent(product.name);
+  return [
+    product.image,
+    `https://placehold.co/900x900?text=${label}+Side`,
+    `https://placehold.co/900x900?text=${label}+Top`,
+    `https://placehold.co/900x900?text=${label}+Detail`,
+  ];
 }
 
 export const articles = [
