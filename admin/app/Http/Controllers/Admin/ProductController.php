@@ -149,7 +149,7 @@ class ProductController extends Controller
 
     private function validateData(Request $request, ?int $ignoreId = null): array
     {
-        return $request->validate([
+        $data = $request->validate([
             'type' => ['required', Rule::in(['gemstone', 'jewelry'])],
             'category_id' => ['nullable', 'exists:categories,id'],
             'name' => ['required', 'string', 'max:255'],
@@ -158,30 +158,23 @@ class ProductController extends Controller
             'short_detail' => ['nullable', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
 
-            // gemstone
-            'gem_weight' => ['nullable', 'string', 'max:100'],
-            'gem_shape' => ['nullable', 'string', 'max:100'],
-            'gem_color' => ['nullable', 'string', 'max:100'],
-            'gem_clarity' => ['nullable', 'string', 'max:100'],
-            'gem_treatment' => ['nullable', 'string', 'max:100'],
-            'gem_origin' => ['nullable', 'string', 'max:100'],
-            'gem_dimensions' => ['nullable', 'string', 'max:100'],
-            'gem_certification' => ['nullable', 'string', 'max:100'],
-
-            // jewelry
-            'jw_metal' => ['nullable', 'string', 'max:100'],
-            'jw_purity' => ['nullable', 'string', 'max:100'],
-            'jw_gross_weight' => ['nullable', 'string', 'max:100'],
-            'jw_stone_type' => ['nullable', 'string', 'max:100'],
-            'jw_stone_weight' => ['nullable', 'string', 'max:100'],
-            'jw_size' => ['nullable', 'string', 'max:100'],
-            'jw_gender' => ['nullable', 'string', 'max:100'],
+            // Type/subcategory-specific attributes (see Product::attributeSchema()).
+            'attributes' => ['nullable', 'array'],
+            'attributes.*' => ['nullable', 'string', 'max:255'],
 
             'images' => ['nullable', 'array'],
             'images.*' => ['image', 'max:4096'],
             'delete_images' => ['nullable', 'array'],
             'primary_image' => ['nullable', 'integer'],
         ]);
+
+        // Drop blank attribute values so stored JSON stays tidy.
+        $data['attributes'] = array_filter(
+            $data['attributes'] ?? [],
+            fn ($v) => $v !== null && $v !== ''
+        );
+
+        return $data;
     }
 
     private function uniqueSlug(string $name, ?int $ignoreId = null): string

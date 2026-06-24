@@ -34,8 +34,7 @@ class ProductAdminTest extends TestCase
             'name' => '2.10ct Blue Sapphire',
             'price' => 1990,
             'short_detail' => 'Unheated / Oval',
-            'gem_weight' => '2.10ct',
-            'gem_origin' => 'Ceylon',
+            'attributes' => ['stone' => 'Sapphire', 'species' => 'Corundum', 'enhancement' => 'None'],
             'is_published' => '1',
             'images' => $images,
         ]);
@@ -45,6 +44,7 @@ class ProductAdminTest extends TestCase
         $product = Product::firstWhere('name', '2.10ct Blue Sapphire');
         $this->assertNotNull($product);
         $this->assertSame('gemstone', $product->type);
+        $this->assertSame('Corundum', $product->attributes['species']);
         $this->assertSame(5, $product->images()->count());
         $this->assertSame(1, $product->images()->where('is_primary', true)->count());
     }

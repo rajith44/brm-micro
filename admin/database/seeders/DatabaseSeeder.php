@@ -83,5 +83,11 @@ class DatabaseSeeder extends Seeder
                 ['type' => 'jewelry', 'name' => $cat['name'], 'image' => $cat['image'], 'position' => $i, 'is_active' => true]
             );
         }
+
+        // Two demo products (with images) per category.
+        $this->call(ProductSeeder::class);
+
+        // Demo blog posts.
+        $this->call(BlogSeeder::class);
     }
 }
