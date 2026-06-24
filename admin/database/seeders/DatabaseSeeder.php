@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
         // Admin login
         User::updateOrCreate(
             ['email' => 'admin@prestigegems.test'],
-            ['name' => 'Administrator', 'password' => Hash::make('password')]
+            ['name' => 'Micro Art LTD', 'password' => Hash::make('password')]
         );
 
         // Fixed static pages

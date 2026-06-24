@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="csrf-token" content="{{ csrf_token() }}" />
-    <title>@yield('title', 'Dashboard') · Prestige Gems Admin</title>
+    <title>@yield('title', 'Dashboard') · Micro Art LTD Admin</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>[x-cloak]{display:none !important;}</style>
 </head>
@@ -42,12 +42,11 @@
     {{-- Sidebar --}}
     <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
            class="fixed inset-y-0 left-0 z-40 w-64 bg-stone-900 text-stone-300 flex flex-col transition-transform duration-300 lg:translate-x-0">
-        <div class="h-16 flex items-center gap-3 px-6 border-b border-stone-800">
-            <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-amber-300 to-amber-600 flex items-center justify-center text-stone-900 font-bold">P</div>
-            <div>
-                <div class="text-sm font-semibold tracking-wide text-amber-300 leading-none">PRESTIGE GEMS</div>
-                <div class="text-[10px] uppercase tracking-[0.3em] text-stone-500 mt-1">Admin</div>
-            </div>
+        <div class="h-20 flex items-center justify-center px-6 border-b border-stone-800">
+            <a href="{{ route('admin.dashboard') }}">
+                {{-- Black line-art logo inverted to white for the dark sidebar --}}
+                <img src="/logo.png" alt="Micro Art LTD" class="h-12 w-auto" style="filter: invert(1) brightness(2);">
+            </a>
         </div>
 
         <nav class="flex-1 overflow-y-auto px-3 py-5 space-y-6">
@@ -120,10 +119,17 @@
 
         <main class="p-4 lg:p-8 max-w-7xl">
             @if (session('status'))
+                @php
+                    $statusLabels = [
+                        'profile-updated' => 'Profile updated.',
+                        'password-updated' => 'Password updated.',
+                    ];
+                    $statusText = $statusLabels[session('status')] ?? session('status');
+                @endphp
                 <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show=false, 4000)"
                      class="mb-6 flex items-center gap-3 rounded-xl bg-green-50 border border-green-200 text-green-800 px-4 py-3 text-sm">
                     <svg class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    {{ session('status') }}
+                    {{ $statusText }}
                     <button @click="show=false" class="ml-auto text-green-600 hover:text-green-800">&times;</button>
                 </div>
             @endif
