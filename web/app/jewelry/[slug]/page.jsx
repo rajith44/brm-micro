@@ -6,30 +6,30 @@ import GemCategorySidebar from "@/components/GemCategorySidebar";
 import { getCategories, getProducts } from "@/lib/api";
 
 export async function generateMetadata({ params }) {
-  if (params.slug === "all") return { title: "All Gemstones — Prestige Gems" };
-  const categories = await getCategories("gemstone");
+  if (params.slug === "all") return { title: "All Jewelry — Prestige Gems" };
+  const categories = await getCategories("jewelry");
   const cat = categories.find((c) => c.slug === params.slug);
-  if (!cat) return { title: "Gemstones — Prestige Gems" };
+  if (!cat) return { title: "Jewelry — Prestige Gems" };
   return {
     title: `${cat.name} — Prestige Gems`,
-    description: `Shop certified Ceylon ${cat.name} gemstones.`,
+    description: `Shop handcrafted ${cat.name}.`,
   };
 }
 
-export default async function GemstoneCategoryPage({ params }) {
+export default async function JewelryCategoryPage({ params }) {
   const { slug } = params;
   const isAll = slug === "all";
 
-  const categories = await getCategories("gemstone");
+  const categories = await getCategories("jewelry");
   const cat = isAll ? null : categories.find((c) => c.slug === slug);
   if (!isAll && !cat) notFound();
 
   const products = await getProducts({
-    type: "gemstone",
+    type: "jewelry",
     category: isAll ? undefined : slug,
   });
   const total = categories.reduce((sum, c) => sum + (c.count || 0), 0);
-  const title = isAll ? "All Gemstones" : cat.name;
+  const title = isAll ? "All Jewelry" : cat.name;
 
   return (
     <>
@@ -37,14 +37,14 @@ export default async function GemstoneCategoryPage({ params }) {
         title={title}
         crumb={
           <>
-            <Link href="/gemstones" className="hover:text-gold">Gemstones</Link>
+            <Link href="/jewelry" className="hover:text-gold">Jewelry</Link>
             {!isAll && <span> / {cat.name}</span>}
           </>
         }
         subtitle={
           isAll
-            ? "Our complete collection of certified Ceylon gemstones."
-            : `Certified Ceylon ${cat.name}, hand-selected for colour, clarity and cut.`
+            ? "Our complete collection of handcrafted gemstone jewelry."
+            : `Handcrafted ${cat.name} set with exceptional Ceylon gemstones.`
         }
       />
 
@@ -53,9 +53,9 @@ export default async function GemstoneCategoryPage({ params }) {
           <GemCategorySidebar
             categories={categories}
             activeSlug={isAll ? "all" : slug}
-            basePath="/gemstones"
+            basePath="/jewelry"
             totalCount={total}
-            allLabel="All Gemstones"
+            allLabel="All Jewelry"
           />
 
           <div className="flex-1 min-w-0">
@@ -70,7 +70,7 @@ export default async function GemstoneCategoryPage({ params }) {
 
             {products.length === 0 ? (
               <div className="bg-white border border-[#eee3d2] rounded-2xl p-12 text-center text-[#6a5844]">
-                No gemstones found in this category yet.
+                No jewelry found in this category yet.
               </div>
             ) : (
               <div className="grid grid-cols-2 md:grid-cols-3 gap-5">

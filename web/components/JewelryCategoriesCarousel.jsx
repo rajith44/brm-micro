@@ -6,7 +6,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { jewelryCategories } from "@/lib/data";
 
-export default function JewelryCategoriesCarousel() {
+export default function JewelryCategoriesCarousel({ items }) {
+  const cats = items && items.length ? items : jewelryCategories;
   const swiperRef = useRef(null);
   const [atStart, setAtStart] = useState(true);
   const [atEnd, setAtEnd] = useState(false);
@@ -36,10 +37,10 @@ export default function JewelryCategoriesCarousel() {
           1024: { slidesPerView: 4 },
         }}
       >
-        {jewelryCategories.map((c) => (
+        {cats.map((c) => (
           <SwiperSlide key={c.slug} className="h-auto pb-2 pt-2">
             <Link
-              href="/jewelry"
+              href={`/jewelry/${c.slug}`}
               className="group block h-full bg-clay rounded-2xl overflow-hidden transition-shadow duration-300 hover:shadow-mega"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}

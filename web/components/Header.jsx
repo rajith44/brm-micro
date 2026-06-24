@@ -14,9 +14,13 @@ const Chevron = () => (
   </svg>
 );
 
-export default function Header() {
+export default function Header({ gemCategories = [], jewelryCategories = [] }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openAccordion, setOpenAccordion] = useState(null);
+
+  // Fall back to bundled data if the API is unavailable.
+  const gems = gemCategories.length ? gemCategories : coloredGemstones;
+  const jewels = jewelryCategories.length ? jewelryCategories : navData.jewelry;
 
   const toggleAccordion = (key) =>
     setOpenAccordion((cur) => (cur === key ? null : key));
@@ -52,7 +56,7 @@ export default function Header() {
                 <div className="p-8">
                   <h3 className="text-gold-bright font-semibold tracking-[0.12em] text-[15px] mb-6">Ceylon Gemstones</h3>
                   <div className="grid grid-cols-3 gap-x-8 gap-y-4 text-[15px] tracking-[0.04em] text-[#43372a] normal-case">
-                    {coloredGemstones.map((g) => (
+                    {gems.map((g) => (
                       <Link key={g.slug} href={`/gemstones/${g.slug}`} className="flex items-center gap-3 hover:text-gold-bright">
                         <span className="w-8 h-8 shrink-0 rounded-full bg-cover bg-center border border-[#d8c8b0]" style={{ backgroundImage: `url('${g.image}')` }} />
                         {g.name}
@@ -74,11 +78,11 @@ export default function Header() {
             <div className="absolute left-[-120px] top-full pt-2 opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-300 z-50">
               <div className="w-[820px] bg-[#f5f1ea] border border-[#e4d6bf] shadow-mega">
                 <div className="grid grid-cols-5 gap-6 px-8 py-8">
-                  {navData.jewelry.map((j) => (
-                    <Link key={j.name} href="/jewelry" className="text-center group/item">
-                      <div className="h-28 flex items-center justify-center mb-4 bg-white rounded-2xl">
+                  {jewels.map((j) => (
+                    <Link key={j.slug ?? j.name} href={j.slug ? `/jewelry/${j.slug}` : "/jewelry"} className="text-center group/item">
+                      <div className="h-28 flex items-center justify-center mb-4 bg-white rounded-2xl overflow-hidden">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={j.image} alt={j.name} className="max-h-24 object-contain transition-transform duration-300 group-hover/item:scale-105 bg-white rounded-2xl" />
+                        <img src={j.image} alt={j.name} className="max-h-24 w-full object-cover transition-transform duration-300 group-hover/item:scale-105" />
                       </div>
                       <div className="text-[17px] font-semibold tracking-[0.04em] text-[#1f1a14] uppercase">{j.name}</div>
                     </Link>
@@ -171,7 +175,7 @@ export default function Header() {
               {openAccordion === "gem" && (
                 <div className="pb-4">
                   <div className="grid grid-cols-2 gap-x-4 gap-y-3 text-[15px] text-[#43372a]">
-                    {coloredGemstones.map((g) => (
+                    {gems.map((g) => (
                       <Link key={g.slug} href={`/gemstones/${g.slug}`} onClick={closeMobile} className="flex items-center gap-2">
                         <span className="w-6 h-6 shrink-0 rounded-full bg-cover bg-center border border-[#d8c8b0]" style={{ backgroundImage: `url('${g.image}')` }} />
                         {g.name}
@@ -190,10 +194,10 @@ export default function Header() {
               </button>
               {openAccordion === "jw" && (
                 <div className="pb-4 grid grid-cols-2 gap-4">
-                  {navData.jewelry.slice(0, 4).map((j) => (
-                    <Link key={j.name} href="/jewelry" onClick={closeMobile} className="bg-white rounded-2xl p-3 border border-[#eadfce] text-center">
+                  {jewels.map((j) => (
+                    <Link key={j.slug ?? j.name} href={j.slug ? `/jewelry/${j.slug}` : "/jewelry"} onClick={closeMobile} className="bg-white rounded-2xl p-3 border border-[#eadfce] text-center">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={j.image} alt={j.name} className="h-20 mx-auto object-contain mb-2" />
+                      <img src={j.image} alt={j.name} className="h-20 w-full object-cover rounded-xl mb-2" />
                       <div className="text-[14px]">{j.name}</div>
                     </Link>
                   ))}

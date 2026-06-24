@@ -6,17 +6,21 @@ import ReviewsCarousel from "@/components/ReviewsCarousel";
 import TrustBadges from "@/components/TrustBadges";
 import ColoredGemstonesCarousel from "@/components/ColoredGemstonesCarousel";
 import JewelryCategoriesCarousel from "@/components/JewelryCategoriesCarousel";
-import {
-  featuredGemstones as gemstones,
-  jewelry,
-  articles,
-} from "@/lib/data";
+import { articles } from "@/lib/data";
+import { getCategories, getProducts } from "@/lib/api";
 
 const igImages = Array.from({ length: 10 }, (_, i) =>
   `https://placehold.co/300x300?text=IG+${i + 1}`
 );
 
-export default function Home() {
+export default async function Home() {
+  const [gemCategories, jewelryCategories, gemstones, jewelry] = await Promise.all([
+    getCategories("gemstone"),
+    getCategories("jewelry"),
+    getProducts({ type: "gemstone", limit: 10 }),
+    getProducts({ type: "jewelry", limit: 5 }),
+  ]);
+
   return (
     <>
       <HeroSlider />
@@ -29,7 +33,7 @@ export default function Home() {
       {/* Colored gemstones */}
       <section className="max-w-7xl mx-auto px-4 lg:px-8 py-6">
         <SectionHeading title="Colored Gemstones" subtitle="Exquisite stones from the heart of Ceylon." />
-        <ColoredGemstonesCarousel />
+        <ColoredGemstonesCarousel items={gemCategories} />
       </section>
 
       {/* Review / trust section */}
@@ -64,7 +68,7 @@ export default function Home() {
       {/* Gemstone jewelry categories */}
       <section className="max-w-7xl mx-auto px-4 lg:px-8 py-6">
         <SectionHeading title="Gemstone Jewelry" subtitle="Crafted with exceptional stones and refined artistry." />
-        <JewelryCategoriesCarousel />
+        <JewelryCategoriesCarousel items={jewelryCategories} />
       </section>
 
       {/* Gemstone collection grid */}
@@ -138,9 +142,14 @@ export default function Home() {
       <section className="max-w-7xl mx-auto px-4 lg:px-8 py-6">
         <SectionHeading title="Jewelry Collection" subtitle="Elegant, handcrafted pieces for every occasion." />
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
-          {jewelry.slice(0, 5).map((j) => (
+          {jewelry.map((j) => (
             <ProductCard key={j.id} product={j} />
           ))}
+        </div>
+        <div className="text-center mt-10">
+          <Link href="/jewelry" className="inline-block bg-coffee text-white px-7 py-3 rounded-full">
+            Browse All Jewelry
+          </Link>
         </div>
       </section>
 

@@ -5,8 +5,16 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Api\CatalogController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+
+// Public read-only storefront API (consumed by the Next.js site).
+Route::prefix('api')->group(function () {
+    Route::get('categories', [CatalogController::class, 'categories']);
+    Route::get('products', [CatalogController::class, 'products']);
+    Route::get('products/{slug}', [CatalogController::class, 'product']);
+});
 
 Route::get('/', function () {
     return redirect()->route('admin.dashboard');

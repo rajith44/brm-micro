@@ -3,6 +3,7 @@ import "./globals.css";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { getCategories } from "@/lib/api";
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -18,12 +19,17 @@ export const metadata = {
     "A premium storefront for exceptional Ceylon gemstones, handcrafted jewelry and one-of-a-kind heirloom pieces inspired by Sri Lankan artistry.",
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const [gemCategories, jewelryCategories] = await Promise.all([
+    getCategories("gemstone"),
+    getCategories("jewelry"),
+  ]);
+
   return (
     <html lang="en" className={cormorant.variable}>
       <body className="bg-cream text-ink">
         <AnnouncementBar />
-        <Header />
+        <Header gemCategories={gemCategories} jewelryCategories={jewelryCategories} />
         <main>{children}</main>
         <Footer />
       </body>

@@ -6,7 +6,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { coloredGemstones } from "@/lib/data";
 
-export default function ColoredGemstonesCarousel() {
+export default function ColoredGemstonesCarousel({ items }) {
+  const gems = items && items.length ? items : coloredGemstones;
   const swiperRef = useRef(null);
   const [atStart, setAtStart] = useState(true);
   const [atEnd, setAtEnd] = useState(false);
@@ -36,7 +37,7 @@ export default function ColoredGemstonesCarousel() {
           1024: { slidesPerView: 5 },
         }}
       >
-        {coloredGemstones.map((g) => (
+        {gems.map((g) => (
           <SwiperSlide key={g.slug} className="h-auto pb-2 pt-2">
             <Link
               href={`/gemstones/${g.slug}`}
