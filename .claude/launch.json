@@ -7,6 +7,14 @@
       "runtimeArgs": ["--prefix", "web", "run", "dev"],
       "port": 3000,
       "autoPort": true
+    },
+    {
+      "name": "prestige-admin",
+      "runtimeExecutable": "php",
+      "runtimeArgs": ["artisan", "serve", "--port=8080"],
+      "cwd": "admin",
+      "port": 8080,
+      "autoPort": true
     }
   ]
 }
