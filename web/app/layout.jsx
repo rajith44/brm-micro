@@ -3,7 +3,8 @@ import "./globals.css";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { getCategories } from "@/lib/api";
+import ScrollToTop from "@/components/ScrollToTop";
+import { getCategories, getSettings } from "@/lib/api";
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -13,16 +14,23 @@ const cormorant = Cormorant_Garamond({
   display: "swap",
 });
 
-export const metadata = {
-  title: "Prestige Gems — Luxury Ceylon Gemstones & Jewelry",
-  description:
-    "A premium storefront for exceptional Ceylon gemstones, handcrafted jewelry and one-of-a-kind heirloom pieces inspired by Sri Lankan artistry.",
-};
+export async function generateMetadata() {
+  const settings = await getSettings();
+  const seo = settings.seo || {};
+  return {
+    title: seo.title || "Micro Art LTD — Luxury Ceylon Gemstones & Jewelry",
+    description:
+      seo.description ||
+      "A premium storefront for exceptional Ceylon gemstones, handcrafted jewelry and one-of-a-kind heirloom pieces inspired by Sri Lankan artistry.",
+    keywords: seo.keywords || undefined,
+  };
+}
 
 export default async function RootLayout({ children }) {
-  const [gemCategories, jewelryCategories] = await Promise.all([
+  const [gemCategories, jewelryCategories, settings] = await Promise.all([
     getCategories("gemstone"),
     getCategories("jewelry"),
+    getSettings(),
   ]);
 
   return (
@@ -31,7 +39,8 @@ export default async function RootLayout({ children }) {
         <AnnouncementBar />
         <Header gemCategories={gemCategories} jewelryCategories={jewelryCategories} />
         <main>{children}</main>
-        <Footer />
+        <Footer business={settings.business} social={settings.social} />
+        <ScrollToTop />
       </body>
     </html>
   );

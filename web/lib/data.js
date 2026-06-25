@@ -5,7 +5,7 @@ const img = (w, h, text) =>
   `https://placehold.co/${w}x${h}?text=${encodeURIComponent(text)}`;
 
 // Store contact — WhatsApp number in international format, digits only.
-export const whatsappNumber = "94771234567";
+export const whatsappNumber = "447533491025";
 
 export const coloredGemstones = [
   { name: "Alexandrite", slug: "alexandrite", image: "/coloredGems/alexandrite.png" },

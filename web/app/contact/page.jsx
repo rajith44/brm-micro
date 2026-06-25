@@ -1,19 +1,36 @@
 import PageHero from "@/components/PageHero";
 import ContactForm from "@/components/ContactForm";
+import { site } from "@/lib/site";
+import { getSettings } from "@/lib/api";
 
 export const metadata = {
-  title: "Contact — Prestige Gems",
-  description: "Visit our showroom or get in touch with our gemstone experts.",
+  title: "Contact — Micro Art LTD",
+  description: "Visit our New Malden showroom or get in touch with our gemstone experts.",
 };
 
-const details = [
-  { label: "Showroom", value: "Colombo / Ratnapura, Sri Lanka" },
-  { label: "Phone", value: "+94 77 123 4567" },
-  { label: "Email", value: "hello@example.com" },
-  { label: "Hours", value: "Mon – Sat: 9.00 AM – 6.00 PM" },
-];
+export default async function ContactPage() {
+  const settings = await getSettings();
+  const b = settings.business || {};
+  const social = settings.social && Object.keys(settings.social).length ? settings.social : site.social;
 
-export default function ContactPage() {
+  const address = b.address || site.address;
+  const tel = b.tel || site.tel;
+  const mobile = b.mobile || site.mobile;
+  const whatsapp = b.whatsapp || site.whatsapp;
+  const email = b.email || site.email;
+  const hours = b.hours || site.hours;
+  const mapEmbed = address
+    ? `https://www.google.com/maps?q=${encodeURIComponent(address)}&output=embed`
+    : site.mapEmbed;
+
+  const details = [
+    { label: "Showroom", value: address },
+    { label: "Phone", value: tel, href: `tel:${(tel || "").replace(/[^\d+]/g, "")}` },
+    { label: "Mobile / WhatsApp", value: mobile, href: `https://wa.me/${whatsapp}` },
+    { label: "Email", value: email, href: `mailto:${email}` },
+    { label: "Hours", value: hours },
+  ];
+
   return (
     <>
       <PageHero
@@ -30,17 +47,34 @@ export default function ContactPage() {
               {details.map((d) => (
                 <div key={d.label} className="border-b border-line pb-4">
                   <div className="text-xs uppercase tracking-[0.2em] text-gold-muted mb-1">{d.label}</div>
-                  <div className="text-lg">{d.value}</div>
+                  {d.href ? (
+                    <a
+                      href={d.href}
+                      target={d.href.startsWith("http") ? "_blank" : undefined}
+                      rel={d.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                      className="text-lg hover:text-gold transition"
+                    >
+                      {d.value}
+                    </a>
+                  ) : (
+                    <div className="text-lg">{d.value}</div>
+                  )}
                 </div>
               ))}
             </div>
+
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-6">
+              {Object.entries(social).map(([platform, url]) =>
+                url ? (
+                  <a key={platform} href={url} target="_blank" rel="noopener noreferrer" className="text-sm text-[#6a5844] hover:text-gold underline capitalize">
+                    {platform}
+                  </a>
+                ) : null
+              )}
+            </div>
+
             <div className="mt-8 rounded-[24px] overflow-hidden border border-line">
-              <iframe
-                title="Store location"
-                className="w-full h-64"
-                loading="lazy"
-                src="https://www.openstreetmap.org/export/embed.html?bbox=79.8%2C6.9%2C79.9%2C6.95&layer=mapnik"
-              />
+              <iframe title="Showroom location" className="w-full h-64" loading="lazy" src={mapEmbed} />
             </div>
           </div>
           <div>

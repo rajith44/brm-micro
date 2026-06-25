@@ -5,6 +5,9 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\SliderController;
+use App\Http\Controllers\Admin\TestimonialController;
 use App\Http\Controllers\Api\CatalogController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -14,6 +17,11 @@ Route::prefix('api')->group(function () {
     Route::get('categories', [CatalogController::class, 'categories']);
     Route::get('products', [CatalogController::class, 'products']);
     Route::get('products/{slug}', [CatalogController::class, 'product']);
+    Route::get('blogs', [CatalogController::class, 'blogs']);
+    Route::get('blogs/{slug}', [CatalogController::class, 'blog']);
+    Route::get('settings', [CatalogController::class, 'settings']);
+    Route::get('sliders', [CatalogController::class, 'sliders']);
+    Route::get('testimonials', [CatalogController::class, 'testimonials']);
 });
 
 Route::get('/', function () {
@@ -35,10 +43,15 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::resource('categories', CategoryController::class)->except('show');
     Route::resource('products', ProductController::class)->except('show');
     Route::resource('blogs', BlogController::class)->except('show');
+    Route::resource('sliders', SliderController::class)->except('show');
+    Route::resource('testimonials', TestimonialController::class)->except('show');
 
     Route::get('pages', [PageController::class, 'index'])->name('pages.index');
     Route::get('pages/{page}/edit', [PageController::class, 'edit'])->name('pages.edit');
     Route::put('pages/{page}', [PageController::class, 'update'])->name('pages.update');
+
+    Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
+    Route::put('settings', [SettingController::class, 'update'])->name('settings.update');
 });
 
 require __DIR__.'/auth.php';

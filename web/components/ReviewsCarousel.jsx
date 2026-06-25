@@ -6,7 +6,8 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { reviews } from "@/lib/data";
 
-export default function ReviewsCarousel() {
+export default function ReviewsCarousel({ items }) {
+  const data = items && items.length ? items : reviews;
   return (
     <div className="reviewsSwiper relative mt-8 w-full min-w-0">
       <Swiper
@@ -22,7 +23,7 @@ export default function ReviewsCarousel() {
         }}
         className="!pb-12"
       >
-        {reviews.map((r, i) => (
+        {data.map((r, i) => (
           <SwiperSlide key={i} className="h-auto">
             <figure className="relative h-full bg-white rounded-2xl p-6 shadow-sm border border-[#eee3d2] flex flex-col">
               {/* watermark quote */}

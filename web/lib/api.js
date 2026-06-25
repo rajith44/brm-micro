@@ -4,8 +4,10 @@
 const API_BASE =
   process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
 
-async function getJson(path, { revalidate = 60 } = {}) {
+async function getJson(path, { revalidate = 0 } = {}) {
   try {
+    // revalidate: 0 → always fetch fresh, so admin changes (e.g. hide price,
+    // settings, new products) reflect on the storefront immediately.
     const res = await fetch(`${API_BASE}${path}`, { next: { revalidate } });
     if (!res.ok) return null;
     return await res.json();
@@ -32,4 +34,25 @@ export function getProducts({ type, category, featured, limit } = {}) {
 
 export function getProduct(slug) {
   return getJson(`/api/products/${slug}`);
+}
+
+export function getBlogs(limit) {
+  const q = limit ? `?limit=${limit}` : "";
+  return getJson(`/api/blogs${q}`).then((d) => d ?? []);
+}
+
+export function getBlog(slug) {
+  return getJson(`/api/blogs/${slug}`);
+}
+
+export function getSettings() {
+  return getJson("/api/settings").then((d) => d ?? {});
+}
+
+export function getSliders() {
+  return getJson("/api/sliders").then((d) => d ?? []);
+}
+
+export function getTestimonials() {
+  return getJson("/api/testimonials").then((d) => d ?? []);
 }

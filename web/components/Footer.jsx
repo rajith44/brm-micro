@@ -1,36 +1,96 @@
 import Link from "next/link";
 import NewsletterForm from "@/components/NewsletterForm";
+import { site } from "@/lib/site";
 
-export default function Footer() {
+const ICONS = {
+  facebook: (
+    <path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5 3.66 9.15 8.44 9.94v-7.03H7.9v-2.9h2.54V9.85c0-2.52 1.49-3.91 3.78-3.91 1.1 0 2.24.2 2.24.2v2.47h-1.26c-1.24 0-1.63.78-1.63 1.57v1.88h2.78l-.44 2.9h-2.34V22c4.78-.79 8.44-4.94 8.44-9.94z" />
+  ),
+  instagram: (
+    <>
+      <rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" strokeWidth="2" />
+      <circle cx="12" cy="12" r="3.5" fill="none" stroke="currentColor" strokeWidth="2" />
+      <circle cx="17.5" cy="6.5" r="1.2" />
+    </>
+  ),
+  twitter: (
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.66l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z" />
+  ),
+  youtube: (
+    <path d="M23.5 6.2a3.02 3.02 0 00-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.51A3.02 3.02 0 00.5 6.2 31.5 31.5 0 000 12a31.5 31.5 0 00.5 5.8 3.02 3.02 0 002.12 2.14c1.88.51 9.38.51 9.38.51s7.5 0 9.38-.51a3.02 3.02 0 002.12-2.14A31.5 31.5 0 0024 12a31.5 31.5 0 00-.5-5.8zM9.6 15.6V8.4l6.4 3.6-6.4 3.6z" />
+  ),
+  tiktok: (
+    <path d="M16.6 5.82a4.28 4.28 0 01-1.06-2.82h-3.1v12.4a2.59 2.59 0 11-2.59-2.59c.27 0 .53.04.78.12V9.77a5.7 5.7 0 00-.78-.05A5.69 5.69 0 1015.54 15.4V9.01a7.34 7.34 0 004.28 1.37V7.28a4.28 4.28 0 01-3.22-1.46z" />
+  ),
+  linkedin: (
+    <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 110-4.14 2.07 2.07 0 010 4.14zM7.12 20.45H3.55V9h3.57v11.45zM22.22 0H1.77C.8 0 0 .78 0 1.74v20.52C0 23.22.8 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.74V1.74C24 .78 23.2 0 22.22 0z" />
+  ),
+  pinterest: (
+    <path d="M12 2C6.48 2 2 6.48 2 12c0 4.24 2.64 7.86 6.36 9.32-.09-.79-.17-2 .03-2.86.18-.78 1.17-4.97 1.17-4.97s-.3-.6-.3-1.48c0-1.39.8-2.43 1.8-2.43.85 0 1.26.64 1.26 1.4 0 .85-.54 2.13-.82 3.31-.24.99.5 1.8 1.47 1.8 1.77 0 3.13-1.87 3.13-4.56 0-2.38-1.71-4.05-4.16-4.05-2.83 0-4.5 2.12-4.5 4.32 0 .86.33 1.78.74 2.28a.3.3 0 01.07.29c-.08.31-.25 1-.28 1.14-.04.18-.15.22-.34.13-1.25-.58-2.03-2.4-2.03-3.87 0-3.15 2.29-6.04 6.6-6.04 3.46 0 6.15 2.47 6.15 5.77 0 3.44-2.17 6.21-5.18 6.21-1.01 0-1.96-.53-2.29-1.15l-.62 2.37c-.22.87-.83 1.96-1.24 2.62.93.29 1.92.44 2.95.44 5.52 0 10-4.48 10-10S17.52 2 12 2z" />
+  ),
+};
+
+export default function Footer({ business, social }) {
+  const b = business || {};
+  const name = b.name || site.name;
+  const address = b.address || site.address;
+  const hours = b.hours || site.hours;
+  const tel = b.tel || site.tel;
+  const mobile = b.mobile || site.mobile;
+  const whatsapp = b.whatsapp || site.whatsapp;
+  const email = b.email || site.email;
+  const telHref = tel ? `tel:${tel.replace(/[^\d+]/g, "")}` : site.telHref;
+
+  const links =
+    social && Object.keys(social).length
+      ? social
+      : { facebook: site.social.facebook, instagram: site.social.instagram };
+
   return (
     <footer className="bg-sand border-t border-line mt-10">
       <div className="max-w-7xl mx-auto px-4 lg:px-8 py-14 grid md:grid-cols-2 lg:grid-cols-4 gap-10">
         <div>
-          <div className="font-cormorant text-2xl mb-4">Prestige Gems</div>
+          <div className="font-cormorant text-2xl mb-4">{name}</div>
           <p className="text-sm leading-7 text-[#6a5844]">
             Luxury gemstone and jewelry storefront for exceptional Ceylon
             sapphires, rubies and handcrafted heirloom pieces inspired by Sri
             Lankan artistry.
           </p>
+          <div className="flex flex-wrap items-center gap-3 mt-5">
+            {Object.entries(links).map(([platform, url]) =>
+              url && ICONS[platform] ? (
+                <a key={platform} href={url} target="_blank" rel="noopener noreferrer" aria-label={platform}
+                   className="w-9 h-9 rounded-full bg-white border border-[#e0d2b8] flex items-center justify-center text-[#6a5844] hover:bg-coffee hover:text-white transition">
+                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">{ICONS[platform]}</svg>
+                </a>
+              ) : null
+            )}
+          </div>
         </div>
+
         <div>
           <h3 className="font-cormorant text-2xl mb-4">Categories</h3>
           <ul className="space-y-2 text-sm text-[#6a5844]">
-            <li><Link href="/gemstones" className="hover:text-gold">Blue Sapphires</Link></li>
-            <li><Link href="/gemstones" className="hover:text-gold">Rubies</Link></li>
-            <li><Link href="/gemstones" className="hover:text-gold">Yellow Sapphires</Link></li>
-            <li><Link href="/jewelry" className="hover:text-gold">Jewelry Collection</Link></li>
+            <li><Link href="/gemstones" className="hover:text-gold">Gemstones</Link></li>
+            <li><Link href="/jewelry" className="hover:text-gold">Jewelry</Link></li>
+            <li><Link href="/blog" className="hover:text-gold">Blog</Link></li>
+            <li><Link href="/about" className="hover:text-gold">About Us</Link></li>
           </ul>
         </div>
+
         <div>
-          <h3 className="font-cormorant text-2xl mb-4">Store Info</h3>
+          <h3 className="font-cormorant text-2xl mb-4">Contact</h3>
           <ul className="space-y-2 text-sm text-[#6a5844]">
-            <li>Mon - Sat: 9.00 AM - 6.00 PM</li>
-            <li>Colombo / Ratnapura, Sri Lanka</li>
-            <li>+94 77 123 4567</li>
-            <li>hello@example.com</li>
+            <li>{address}</li>
+            <li>{hours}</li>
+            <li>Tel: <a href={telHref} className="hover:text-gold">{tel}</a></li>
+            <li>Mobile / WhatsApp:{" "}
+              <a href={`https://wa.me/${whatsapp}`} target="_blank" rel="noopener noreferrer" className="hover:text-gold">{mobile}</a>
+            </li>
+            <li><a href={`mailto:${email}`} className="hover:text-gold">{email}</a></li>
           </ul>
         </div>
+
         <div>
           <h3 className="font-cormorant text-2xl mb-4">Newsletter</h3>
           <p className="text-sm text-[#6a5844] mb-4">
@@ -40,7 +100,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="text-center text-xs py-4 border-t border-line text-[#7d6b55]">
-        © 2026 Prestige Gems — Luxury Ceylon Gemstones &amp; Jewelry
+        © {new Date().getFullYear()} {name} — {site.tagline}
       </div>
     </footer>
   );

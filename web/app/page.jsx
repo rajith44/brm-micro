@@ -6,24 +6,26 @@ import ReviewsCarousel from "@/components/ReviewsCarousel";
 import TrustBadges from "@/components/TrustBadges";
 import ColoredGemstonesCarousel from "@/components/ColoredGemstonesCarousel";
 import JewelryCategoriesCarousel from "@/components/JewelryCategoriesCarousel";
-import { articles } from "@/lib/data";
-import { getCategories, getProducts } from "@/lib/api";
+import { getCategories, getProducts, getBlogs, getSliders, getTestimonials } from "@/lib/api";
 
 const igImages = Array.from({ length: 10 }, (_, i) =>
   `https://placehold.co/300x300?text=IG+${i + 1}`
 );
 
 export default async function Home() {
-  const [gemCategories, jewelryCategories, gemstones, jewelry] = await Promise.all([
+  const [gemCategories, jewelryCategories, gemstones, jewelry, articles, slides, testimonials] = await Promise.all([
     getCategories("gemstone"),
     getCategories("jewelry"),
     getProducts({ type: "gemstone", limit: 10 }),
     getProducts({ type: "jewelry", limit: 5 }),
+    getBlogs(4),
+    getSliders(),
+    getTestimonials(),
   ]);
 
   return (
     <>
-      <HeroSlider />
+      <HeroSlider slides={slides} />
 
       {/* Trust badges */}
       <section className="max-w-7xl mx-auto px-4 lg:px-8 py-8 lg:py-10 relative z-20">
@@ -59,7 +61,7 @@ export default async function Home() {
                 jewelry lovers with the finest certified Ceylon gemstones, backed
                 by transparent sourcing and master craftsmanship.
               </p>
-              <ReviewsCarousel />
+              <ReviewsCarousel items={testimonials} />
             </div>
           </div>
         </div>

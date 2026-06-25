@@ -14,7 +14,7 @@ export default function ProductActions({ product }) {
   const [sent, setSent] = useState(false);
 
   const waText = encodeURIComponent(
-    `Hello Prestige Gems, I'm interested in ${product.name} (Ref: ${product.id}, ${product.detail}). Is it available?`
+    `Hello Micro Art LTD, I'm interested in ${product.name} (Ref: ${product.id}, ${product.detail}). Is it available?`
   );
   const waLink = `https://wa.me/${whatsappNumber}?text=${waText}`;
 

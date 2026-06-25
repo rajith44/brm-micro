@@ -45,7 +45,7 @@ export default function JewelryCategoriesCarousel({ items }) {
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={c.image}
+                src={`/jewelry/${c.slug}.png`}
                 alt={c.name}
                 className="w-full h-80 lg:h-96 object-cover transition-transform duration-500 group-hover:scale-105"
               />

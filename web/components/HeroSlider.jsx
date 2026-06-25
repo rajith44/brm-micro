@@ -9,7 +9,8 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { heroSlides } from "@/lib/data";
 
-export default function HeroSlider() {
+export default function HeroSlider({ slides }) {
+  const data = slides && slides.length ? slides : heroSlides;
   return (
     <section className="relative">
       <Swiper
@@ -22,7 +23,7 @@ export default function HeroSlider() {
         pagination={{ clickable: true }}
         navigation
       >
-        {heroSlides.map((slide, i) => (
+        {data.map((slide, i) => (
           <SwiperSlide key={i}>
             <div
               className="relative min-h-[72vh] sm:min-h-[78vh] lg:min-h-[92vh] bg-cover bg-center"
