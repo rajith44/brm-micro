@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Support\Media;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -38,7 +39,7 @@ class CategoryController extends Controller
         $data['is_active'] = $request->boolean('is_active');
 
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('categories', 'public');
+            $data['image'] = Media::store($request->file('image'), 'categories');
         }
 
         Category::create($data);
@@ -60,7 +61,7 @@ class CategoryController extends Controller
         $data['is_active'] = $request->boolean('is_active');
 
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('categories', 'public');
+            $data['image'] = Media::store($request->file('image'), 'categories');
         }
 
         $category->update($data);

@@ -15,4 +15,9 @@ class Blog extends Model
         'is_published' => 'boolean',
         'published_at' => 'date',
     ];
+
+    public function getImageUrlAttribute(): ?string
+    {
+        return \App\Support\Media::url($this->image);
+    }
 }

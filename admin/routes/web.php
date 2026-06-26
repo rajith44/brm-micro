@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\BackupController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -52,6 +53,11 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
 
     Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
     Route::put('settings', [SettingController::class, 'update'])->name('settings.update');
+
+    Route::get('backups', [BackupController::class, 'index'])->name('backups.index');
+    Route::post('backups', [BackupController::class, 'store'])->name('backups.store');
+    Route::get('backups/{file}/download', [BackupController::class, 'download'])->name('backups.download');
+    Route::delete('backups/{file}', [BackupController::class, 'destroy'])->name('backups.destroy');
 });
 
 require __DIR__.'/auth.php';

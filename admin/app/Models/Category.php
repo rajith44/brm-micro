@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
+use App\Support\Media;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class Category extends Model
 {
@@ -25,18 +24,8 @@ class Category extends Model
         return $this->hasMany(Product::class);
     }
 
-    /**
-     * Resolve the display URL — absolute paths (seeded /coloredGems/…) are used
-     * as-is; uploaded files resolve through the public storage disk.
-     */
     public function getImageUrlAttribute(): ?string
     {
-        if (! $this->image) {
-            return null;
-        }
-
-        return Str::startsWith($this->image, ['http://', 'https://', '/'])
-            ? $this->image
-            : Storage::url($this->image);
+        return Media::url($this->image);
     }
 }

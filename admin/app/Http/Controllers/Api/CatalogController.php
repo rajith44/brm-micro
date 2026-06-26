@@ -103,6 +103,8 @@ class CatalogController extends Controller
 
         return response()->json([
             'hidePrice' => ($s['hide_price'] ?? '0') === '1',
+            'maintenanceMode' => ($s['maintenance_mode'] ?? '0') === '1',
+            'maintenanceMessage' => $v('maintenance_message') ?: 'We are currently performing scheduled maintenance. Please check back soon.',
             'business' => [
                 'name' => $v('business_name'),
                 'address' => $v('business_address'),

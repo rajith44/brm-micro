@@ -10,12 +10,16 @@ class SettingController extends Controller
 {
     /** Text setting keys that the form manages. */
     private array $textKeys = [
+        'maintenance_message',
         'business_name', 'business_address', 'business_hours', 'business_tel',
         'business_mobile', 'business_whatsapp', 'business_email',
         'social_facebook', 'social_instagram', 'social_twitter', 'social_youtube',
         'social_tiktok', 'social_linkedin', 'social_pinterest',
         'seo_title', 'seo_description', 'seo_keywords',
     ];
+
+    /** Boolean toggle keys. */
+    private array $boolKeys = ['hide_price', 'maintenance_mode'];
 
     public function index()
     {
@@ -27,11 +31,13 @@ class SettingController extends Controller
     public function update(Request $request)
     {
         $data = $request->validate(array_merge(
-            ['hide_price' => ['nullable', 'boolean']],
+            array_fill_keys($this->boolKeys, ['nullable', 'boolean']),
             array_fill_keys($this->textKeys, ['nullable', 'string', 'max:2000']),
         ));
 
-        Setting::set('hide_price', $request->boolean('hide_price') ? '1' : '0');
+        foreach ($this->boolKeys as $key) {
+            Setting::set($key, $request->boolean($key) ? '1' : '0');
+        }
 
         foreach ($this->textKeys as $key) {
             Setting::set($key, $data[$key] ?? '');

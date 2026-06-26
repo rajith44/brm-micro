@@ -125,12 +125,13 @@ class ProductSeeder extends Seeder
         }
 
         $ext = pathinfo($source, PATHINFO_EXTENSION) ?: 'png';
+        File::ensureDirectoryExists(public_path('uploads/products'));
 
         for ($i = 1; $i <= 2; $i++) {
-            $relative = "products/seed-{$product->id}-{$i}.{$ext}";
-            File::copy($source, storage_path("app/public/{$relative}"));
+            $name = "seed-{$product->id}-{$i}.{$ext}";
+            File::copy($source, public_path("uploads/products/{$name}"));
             $product->images()->create([
-                'path' => $relative,
+                'path' => "/uploads/products/{$name}",
                 'position' => $i - 1,
                 'is_primary' => $i === 1,
             ]);

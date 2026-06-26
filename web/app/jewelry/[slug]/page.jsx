@@ -5,6 +5,14 @@ import ProductCard from "@/components/ProductCard";
 import GemCategorySidebar from "@/components/GemCategorySidebar";
 import { getCategories, getProducts } from "@/lib/api";
 
+export const dynamicParams = true;
+
+export async function generateStaticParams() {
+  if (process.env.STATIC_EXPORT !== "1") return [];
+  const categories = await getCategories("jewelry");
+  return [{ slug: "all" }, ...categories.map((c) => ({ slug: c.slug }))];
+}
+
 export async function generateMetadata({ params }) {
   if (params.slug === "all") return { title: "All Jewelry — Prestige Gems" };
   const categories = await getCategories("jewelry");

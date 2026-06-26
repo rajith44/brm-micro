@@ -5,6 +5,14 @@ import ProductGallery from "@/components/ProductGallery";
 import ProductCarousel from "@/components/ProductCarousel";
 import { getProduct, getProducts } from "@/lib/api";
 
+export const dynamicParams = true;
+
+export async function generateStaticParams() {
+  if (process.env.STATIC_EXPORT !== "1") return [];
+  const products = await getProducts({});
+  return products.map((p) => ({ slug: p.id }));
+}
+
 export async function generateMetadata({ params }) {
   const product = await getProduct(params.slug);
   if (!product) return { title: "Product not found — Prestige Gems" };

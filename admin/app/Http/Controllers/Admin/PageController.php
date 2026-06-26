@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Page;
+use App\Support\Media;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class PageController extends Controller
 {
@@ -32,9 +32,9 @@ class PageController extends Controller
 
         if ($request->hasFile('image')) {
             if ($page->image) {
-                Storage::disk('public')->delete($page->image);
+                Media::delete($page->image);
             }
-            $data['image'] = $request->file('image')->store('pages', 'public');
+            $data['image'] = Media::store($request->file('image'), 'pages');
         }
 
         $page->update($data);

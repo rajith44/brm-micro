@@ -93,6 +93,8 @@ class DatabaseSeeder extends Seeder
         // Default site settings.
         $settings = [
             'hide_price' => '0',
+            'maintenance_mode' => '0',
+            'maintenance_message' => 'We are currently performing scheduled maintenance. Please check back soon.',
             'business_name' => 'Micro Art LTD',
             'business_address' => '80, Burlington Road, New Malden KT3 4NU',
             'business_hours' => 'Mon – Sat: 9.00 AM – 6.00 PM',

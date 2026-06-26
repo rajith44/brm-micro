@@ -4,11 +4,14 @@
 const API_BASE =
   process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
 
+const IS_EXPORT = process.env.STATIC_EXPORT === "1";
+
 async function getJson(path, { revalidate = 0 } = {}) {
   try {
-    // revalidate: 0 → always fetch fresh, so admin changes (e.g. hide price,
-    // settings, new products) reflect on the storefront immediately.
-    const res = await fetch(`${API_BASE}${path}`, { next: { revalidate } });
+    // Static export: data is baked at build time (force-cache).
+    // Server mode: always fetch fresh, so admin changes reflect immediately.
+    const init = IS_EXPORT ? { cache: "force-cache" } : { next: { revalidate } };
+    const res = await fetch(`${API_BASE}${path}`, init);
     if (!res.ok) return null;
     return await res.json();
   } catch {

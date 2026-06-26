@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
+use App\Support\Media;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
@@ -78,7 +78,7 @@ class ProductController extends Controller
         foreach ((array) $request->input('delete_images', []) as $imageId) {
             $img = $product->images()->find($imageId);
             if ($img) {
-                Storage::disk('public')->delete($img->path);
+                Media::delete($img->path);
                 $img->delete();
             }
         }
@@ -101,7 +101,7 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         foreach ($product->images as $img) {
-            Storage::disk('public')->delete($img->path);
+            Media::delete($img->path);
         }
         $product->delete();
 
@@ -137,7 +137,7 @@ class ProductController extends Controller
         $position = $existing;
 
         foreach ($files as $file) {
-            $path = $file->store('products', 'public');
+            $path = Media::store($file, 'products');
             $product->images()->create([
                 'path' => $path,
                 'position' => $position,

@@ -62,9 +62,10 @@ class BlogSeeder extends Seeder
             if (! $blog->image) {
                 $source = public_path('coloredGems/'.$post['image']);
                 if (File::exists($source)) {
-                    $relative = 'blogs/seed-'.$slug.'.png';
-                    File::copy($source, storage_path('app/public/'.$relative));
-                    $blog->update(['image' => $relative]);
+                    File::ensureDirectoryExists(public_path('uploads/blogs'));
+                    $name = 'seed-'.$slug.'.png';
+                    File::copy($source, public_path('uploads/blogs/'.$name));
+                    $blog->update(['image' => '/uploads/blogs/'.$name]);
                 }
             }
         }

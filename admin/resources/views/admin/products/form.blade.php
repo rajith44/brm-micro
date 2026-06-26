@@ -139,7 +139,7 @@
                     <div class="grid grid-cols-2 sm:grid-cols-5 gap-4">
                         @foreach ($product->images as $img)
                             <div class="border border-stone-200 rounded-lg p-2">
-                                <img src="{{ Storage::url($img->path) }}" class="w-full h-24 object-cover rounded mb-2" alt="">
+                                <img src="{{ $img->url }}" class="w-full h-24 object-cover rounded mb-2" alt="">
                                 <label class="flex items-center gap-1 text-xs mb-1">
                                     <input type="radio" name="primary_image" value="{{ $img->id }}" @checked($img->is_primary)
                                         class="text-amber-500 focus:ring-amber-500">

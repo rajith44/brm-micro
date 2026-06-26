@@ -15,4 +15,9 @@ class Slider extends Model
         'is_active' => 'boolean',
         'position' => 'integer',
     ];
+
+    public function getImageUrlAttribute(): ?string
+    {
+        return \App\Support\Media::url($this->image);
+    }
 }

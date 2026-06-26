@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Blog;
+use App\Support\Media;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class BlogController extends Controller
@@ -29,7 +29,7 @@ class BlogController extends Controller
         $data['is_published'] = $request->boolean('is_published');
 
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('blogs', 'public');
+            $data['image'] = Media::store($request->file('image'), 'blogs');
         }
 
         Blog::create($data);
@@ -52,9 +52,9 @@ class BlogController extends Controller
 
         if ($request->hasFile('image')) {
             if ($blog->image) {
-                Storage::disk('public')->delete($blog->image);
+                Media::delete($blog->image);
             }
-            $data['image'] = $request->file('image')->store('blogs', 'public');
+            $data['image'] = Media::store($request->file('image'), 'blogs');
         }
 
         $blog->update($data);

@@ -4,6 +4,7 @@ import AnnouncementBar from "@/components/AnnouncementBar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollToTop from "@/components/ScrollToTop";
+import MaintenanceScreen from "@/components/MaintenanceScreen";
 import { getCategories, getSettings } from "@/lib/api";
 
 const cormorant = Cormorant_Garamond({
@@ -36,11 +37,17 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en" className={cormorant.variable}>
       <body className="bg-cream text-ink">
-        <AnnouncementBar />
-        <Header gemCategories={gemCategories} jewelryCategories={jewelryCategories} />
-        <main>{children}</main>
-        <Footer business={settings.business} social={settings.social} />
-        <ScrollToTop />
+        {settings.maintenanceMode ? (
+          <MaintenanceScreen message={settings.maintenanceMessage} />
+        ) : (
+          <>
+            <AnnouncementBar />
+            <Header gemCategories={gemCategories} jewelryCategories={jewelryCategories} />
+            <main>{children}</main>
+            <Footer business={settings.business} social={settings.social} />
+            <ScrollToTop />
+          </>
+        )}
       </body>
     </html>
   );

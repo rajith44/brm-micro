@@ -26,6 +26,27 @@
             </label>
         </div>
 
+        {{-- Maintenance mode --}}
+        <div class="bg-white rounded-2xl border border-amber-200 p-6 lg:p-8">
+            <h2 class="font-semibold text-lg mb-1">Maintenance Mode</h2>
+            <p class="text-sm text-stone-500 mb-5">
+                When enabled, the public website shows a temporary "unavailable" page instead of the storefront.
+                This is fully reversible and does not delete any data. The admin panel stays accessible.
+            </p>
+            <label class="flex items-start gap-3 mb-5">
+                <input type="checkbox" name="maintenance_mode" value="1" @checked(($settings['maintenance_mode'] ?? '0') === '1')
+                    class="mt-1 rounded border-stone-300 text-amber-500 focus:ring-amber-500">
+                <span>
+                    <span class="font-medium">Put the website in maintenance mode</span>
+                    <span class="block text-sm text-stone-500">Take the storefront offline temporarily. Turn off to restore it instantly.</span>
+                </span>
+            </label>
+            <div>
+                <label class="block text-sm font-medium mb-1">Message shown to visitors</label>
+                <textarea name="maintenance_message" rows="2" class="{{ $field }}">{{ $val('maintenance_message', 'We are currently performing scheduled maintenance. Please check back soon.') }}</textarea>
+            </div>
+        </div>
+
         {{-- Business details --}}
         <div class="bg-white rounded-2xl border border-stone-200 p-6 lg:p-8">
             <h2 class="font-semibold text-lg mb-5">Business Details</h2>

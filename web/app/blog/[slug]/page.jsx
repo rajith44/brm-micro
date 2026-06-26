@@ -2,6 +2,14 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getBlog, getBlogs } from "@/lib/api";
 
+export const dynamicParams = true;
+
+export async function generateStaticParams() {
+  if (process.env.STATIC_EXPORT !== "1") return [];
+  const posts = await getBlogs();
+  return posts.map((p) => ({ slug: p.slug }));
+}
+
 export async function generateMetadata({ params }) {
   const article = await getBlog(params.slug);
   if (!article) return { title: "Article not found — Prestige Gems" };

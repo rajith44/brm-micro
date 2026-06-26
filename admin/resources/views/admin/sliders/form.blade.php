@@ -62,7 +62,7 @@
             <div>
                 <label class="block text-sm font-medium mb-1">Background image (wide, ~1800×1100)</label>
                 @if ($slider->image)
-                    <img src="{{ Storage::url($slider->image) }}" class="w-full max-w-md h-32 object-cover rounded-lg mb-2" alt="">
+                    <img src="{{ $slider->image_url }}" class="w-full max-w-md h-32 object-cover rounded-lg mb-2" alt="">
                 @endif
                 <input type="file" name="image" accept="image/*" class="block w-full text-sm">
             </div>

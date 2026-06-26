@@ -43,7 +43,7 @@
             <div>
                 <label class="block text-sm font-medium mb-1">Featured image</label>
                 @if ($blog->image)
-                    <img src="{{ Storage::url($blog->image) }}" class="w-40 h-24 rounded object-cover mb-2" alt="">
+                    <img src="{{ $blog->image_url }}" class="w-40 h-24 rounded object-cover mb-2" alt="">
                 @endif
                 <input type="file" name="image" accept="image/*" class="block w-full text-sm">
             </div>

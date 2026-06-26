@@ -29,7 +29,7 @@
                             <td class="px-6 py-3">
                                 <div class="flex items-center gap-3">
                                     @if ($b->image)
-                                        <img src="{{ Storage::url($b->image) }}" class="w-16 h-11 rounded-lg object-cover" alt="">
+                                        <img src="{{ $b->image_url }}" class="w-16 h-11 rounded-lg object-cover" alt="">
                                     @else
                                         <div class="w-16 h-11 rounded-lg bg-stone-100"></div>
                                     @endif

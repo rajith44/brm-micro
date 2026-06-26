@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Slider;
+use App\Support\Media;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class SliderController extends Controller
 {
@@ -26,7 +26,7 @@ class SliderController extends Controller
         $data = $this->validateData($request);
         $data['is_active'] = $request->boolean('is_active');
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('sliders', 'public');
+            $data['image'] = Media::store($request->file('image'), 'sliders');
         }
         Slider::create($data);
 
@@ -44,9 +44,9 @@ class SliderController extends Controller
         $data['is_active'] = $request->boolean('is_active');
         if ($request->hasFile('image')) {
             if ($slider->image) {
-                Storage::disk('public')->delete($slider->image);
+                Media::delete($slider->image);
             }
-            $data['image'] = $request->file('image')->store('sliders', 'public');
+            $data['image'] = Media::store($request->file('image'), 'sliders');
         }
         $slider->update($data);
 
