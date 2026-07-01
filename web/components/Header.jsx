@@ -124,7 +124,7 @@ export default function Header({ gemCategories = [], jewelryCategories = [] }) {
 
         {/* Desktop right nav */}
         <nav className="hidden lg:flex gap-8 uppercase tracking-[0.06em] text-[18px] leading-[1.2]">
-          <Link href="/services" className="hover:text-gold">Jewelry Classes</Link>
+          <Link href="/sell-gold" className="hover:text-gold text-gold">Sell Gold</Link>
           <Link href="/about" className="hover:text-gold">About Us</Link>
           <Link href="/blog" className="hover:text-gold">Blog</Link>
           <Link href="/contact" className="hover:text-gold">Contact</Link>
@@ -221,7 +221,7 @@ export default function Header({ gemCategories = [], jewelryCategories = [] }) {
             </div>
 
             <Link href="/services" onClick={closeMobile} className="block py-4 border-b border-[#eadfce] text-[18px]">Services</Link>
-            <Link href="/services" onClick={closeMobile} className="block py-4 border-b border-[#eadfce] text-[18px]">Jewelry Classes</Link>
+            <Link href="/sell-gold" onClick={closeMobile} className="block py-4 border-b border-[#eadfce] text-[18px] text-gold">Sell Gold</Link>
             <Link href="/about" onClick={closeMobile} className="block py-4 border-b border-[#eadfce] text-[18px]">About Us</Link>
             <Link href="/blog" onClick={closeMobile} className="block py-4 border-b border-[#eadfce] text-[18px]">Blog</Link>
             <Link href="/contact" onClick={closeMobile} className="block py-4 border-b border-[#eadfce] text-[18px]">Contact</Link>

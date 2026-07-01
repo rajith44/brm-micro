@@ -34,10 +34,13 @@ The storefront fetches live data from the Laravel API at request time, so:
    composer install --no-dev --optimize-autoloader
    php artisan key:generate
    php artisan migrate --seed --force
-   php artisan storage:link
    php artisan config:cache
    npm install && npm run build     # builds the admin CSS/JS
    ```
+   > No `storage:link` needed — admin image uploads are stored directly in
+   > `admin/public/uploads/` and served at `/uploads/...`. Just make sure that
+   > folder is writable by PHP (created automatically on first upload; if your
+   > host is strict, `chmod 755 admin/public/uploads`).
 5. Daily backups — add a cron job (cPanel → Cron Jobs), every minute:
    ```
    php /home/USER/admin/artisan schedule:run >> /dev/null 2>&1
