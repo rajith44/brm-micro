@@ -90,16 +90,19 @@ h6,
 .trustSwiper .swiper-slide,
 .gemSwiper .swiper-slide,
 .jewelrySwiper .swiper-slide,
-.productSwiper .swiper-slide {
+.productSwiper .swiper-slide,
+.articlesSwiper .swiper-slide {
   height: auto;
 }
-.reviewsSwiper .swiper-pagination-bullet {
+.reviewsSwiper .swiper-pagination-bullet,
+.articlesSwiper .swiper-pagination-bullet {
   width: 10px;
   height: 10px;
   background: #cdb79a;
   opacity: 0.6;
 }
-.reviewsSwiper .swiper-pagination-bullet-active {
+.reviewsSwiper .swiper-pagination-bullet-active,
+.articlesSwiper .swiper-pagination-bullet-active {
   opacity: 1;
   background: #a9803b;
   width: 26px;

@@ -3,6 +3,7 @@ import HeroSlider from "@/components/HeroSlider";
 import SectionHeading from "@/components/SectionHeading";
 import ProductCard from "@/components/ProductCard";
 import ReviewsCarousel from "@/components/ReviewsCarousel";
+import ArticlesCarousel from "@/components/ArticlesCarousel";
 import TrustBadges from "@/components/TrustBadges";
 import ColoredGemstonesCarousel from "@/components/ColoredGemstonesCarousel";
 import JewelryCategoriesCarousel from "@/components/JewelryCategoriesCarousel";
@@ -216,18 +217,7 @@ export default async function Home() {
       {/* Articles */}
       <section className="max-w-7xl mx-auto px-4 lg:px-8 py-6">
         <SectionHeading title="Be Aware of All Events" subtitle="Editorial articles, education and gemstone insights." />
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
-          {articles.map((a) => (
-            <Link key={a.slug} href={`/blog/${a.slug}`} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-[#eee3d2] block group">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={a.image} alt={a.title} className="w-full h-52 object-cover transition-transform duration-500 group-hover:scale-105" />
-              <div className="p-5">
-                <h3 className="font-cormorant text-2xl leading-tight">{a.title}</h3>
-                <p className="text-sm text-[#6a5844] mt-3">{a.excerpt}</p>
-              </div>
-            </Link>
-          ))}
-        </div>
+        <ArticlesCarousel articles={articles} />
       </section>
 
       {/* Instagram */}

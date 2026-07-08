@@ -57,38 +57,23 @@ export default async function GemstoneCategoryPage({ params }) {
       />
 
       <section className="max-w-7xl mx-auto px-4 lg:px-8 py-14">
-        <div className="flex flex-col lg:flex-row gap-8">
-          <GemCategorySidebar
-            categories={categories}
-            activeSlug={isAll ? "all" : slug}
-            basePath="/gemstones"
-            totalCount={total}
-            allLabel="All Gemstones"
-          />
-
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="font-cormorant text-2xl">
-                {title}
-                <span className="text-base text-[#6a5844] font-normal ml-2">
-                  ({products.length} {products.length === 1 ? "result" : "results"})
-                </span>
-              </h2>
-            </div>
-
-            {products.length === 0 ? (
-              <div className="bg-white border border-[#eee3d2] rounded-2xl p-12 text-center text-[#6a5844]">
-                No gemstones found in this category yet.
-              </div>
-            ) : (
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
-                {products.map((p) => (
-                  <ProductCard key={p.id} product={p} />
-                ))}
-              </div>
-            )}
+        <GemCategorySidebar
+          categories={categories}
+          activeSlug={isAll ? "all" : slug}
+          basePath="/gemstones"
+          totalCount={total}
+          allLabel="All Gemstones"
+          title={title}
+          resultCount={products.length}
+          empty={products.length === 0}
+          emptyMessage="No gemstones found in this category yet."
+        >
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
+            {products.map((p) => (
+              <ProductCard key={p.id} product={p} />
+            ))}
           </div>
-        </div>
+        </GemCategorySidebar>
       </section>
     </>
   );
