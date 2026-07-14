@@ -19,7 +19,7 @@ export default function ProductCard({ product }) {
         <p className="text-sm text-[#6a5844] mt-2">{product.detail}</p>
         <div className="mt-3 flex items-center justify-between gap-2">
           {product.price != null ? (
-            <span className="font-semibold">${Number(product.price).toLocaleString()}</span>
+            <span className="font-semibold">£{Number(product.price).toLocaleString("en-GB")}</span>
           ) : (
             <span className="font-semibold text-gold"></span>
           )}

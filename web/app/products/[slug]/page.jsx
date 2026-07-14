@@ -68,7 +68,7 @@ export default async function ProductPage({ params }) {
             )}
             <h1 className="font-cormorant text-4xl lg:text-5xl leading-tight mb-4">{product.name}</h1>
             {product.price != null ? (
-              <p className="text-2xl font-semibold mb-6">${Number(product.price).toLocaleString()}</p>
+              <p className="text-2xl font-semibold mb-6">£{Number(product.price).toLocaleString("en-GB")}</p>
             ) : (
               <p className="text-xl font-semibold text-gold mb-6"></p>
             )}

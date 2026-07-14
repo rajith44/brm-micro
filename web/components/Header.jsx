@@ -96,6 +96,8 @@ export default function Header({ gemCategories = [], jewelryCategories = [] }) {
 
             <Link href="/services" className="hover:text-gold py-3">Services</Link>
 
+            <Link href="/jewelry-classes" className="hover:text-gold py-3">Classes</Link>
+
             {/* Education mega */}
             {/* <div className="relative group">
             <button className="flex items-center gap-2 hover:text-gold py-3 text-uppercase">
@@ -228,6 +230,7 @@ export default function Header({ gemCategories = [], jewelryCategories = [] }) {
             </div> */}
 
             <Link href="/services" onClick={closeMobile} className="block py-4 border-b border-[#eadfce] text-[18px]">Services</Link>
+            <Link href="/jewelry-classes" onClick={closeMobile} className="block py-4 border-b border-[#eadfce] text-[18px]">Jewelry Classes</Link>
             <Link href="/sell-gold" onClick={closeMobile} className="block py-4 border-b border-[#eadfce] text-[18px] text-gold">Sell Gold</Link>
             <Link href="/about" onClick={closeMobile} className="block py-4 border-b border-[#eadfce] text-[18px]">About Us</Link>
             <Link href="/blog" onClick={closeMobile} className="block py-4 border-b border-[#eadfce] text-[18px]">Blog</Link>

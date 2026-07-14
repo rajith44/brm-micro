@@ -61,7 +61,7 @@
 
                 <div class="grid sm:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm font-medium mb-1">Price (USD)</label>
+                        <label class="block text-sm font-medium mb-1">Price (GBP £)</label>
                         <input type="number" step="0.01" min="0" name="price" value="{{ old('price', $product->price) }}"
                             required class="{{ $field }}">
                     </div>

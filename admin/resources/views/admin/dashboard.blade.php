@@ -71,7 +71,7 @@
                             </td>
                             <td class="px-6 py-3"><span class="capitalize text-stone-600">{{ $p->type }}</span></td>
                             <td class="px-6 py-3 text-stone-600">{{ $p->category?->name ?? '—' }}</td>
-                            <td class="px-6 py-3 font-medium">${{ number_format($p->price, 2) }}</td>
+                            <td class="px-6 py-3 font-medium">£{{ number_format($p->price, 2) }}</td>
                         </tr>
                     @empty
                         <tr><td colspan="4" class="px-6 py-12 text-center text-stone-400">No products yet — add your first one above.</td></tr>

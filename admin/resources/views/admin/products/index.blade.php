@@ -54,7 +54,7 @@
                                 </span>
                             </td>
                             <td class="px-6 py-3 text-stone-600">{{ $p->category?->name ?? '—' }}</td>
-                            <td class="px-6 py-3 font-medium">${{ number_format($p->price, 2) }}</td>
+                            <td class="px-6 py-3 font-medium">£{{ number_format($p->price, 2) }}</td>
                             <td class="px-6 py-3">
                                 <span class="inline-flex items-center gap-1.5 text-xs font-medium {{ $p->is_published ? 'text-green-700' : 'text-stone-400' }}">
                                     <span class="w-1.5 h-1.5 rounded-full {{ $p->is_published ? 'bg-green-500' : 'bg-stone-300' }}"></span>

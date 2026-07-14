@@ -1,9 +1,23 @@
 // Storefront data layer — fetches catalog data from the Laravel admin API.
 // All calls run server-side (in Server Components), so there are no CORS concerns.
 
-const API_BASE =
-  process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
+import { normalizeMediaUrls } from "@/lib/media";
 
+function getApiBase() {
+  const url = process.env.NEXT_PUBLIC_API_URL || process.env.API_URL;
+  if (url) return url.replace(/\/$/, "");
+
+  if (process.env.NODE_ENV === "production") {
+    console.error(
+      "[api] NEXT_PUBLIC_API_URL is not set on the server. " +
+        "Set it to your live API URL (e.g. https://chamibapi.myflexipos.com) and rebuild/restart."
+    );
+  }
+
+  return "http://127.0.0.1:8000";
+}
+
+const API_BASE = getApiBase();
 const IS_EXPORT = process.env.STATIC_EXPORT === "1";
 
 async function getJson(path, { revalidate = 0 } = {}) {
@@ -13,7 +27,8 @@ async function getJson(path, { revalidate = 0 } = {}) {
     const init = IS_EXPORT ? { cache: "force-cache" } : { next: { revalidate } };
     const res = await fetch(`${API_BASE}${path}`, init);
     if (!res.ok) return null;
-    return await res.json();
+    const data = await res.json();
+    return normalizeMediaUrls(data);
   } catch {
     // Admin/API offline — let pages render gracefully with empty data.
     return null;
