@@ -1,4 +1,5 @@
 ﻿import Link from "next/link";
+import { HIDE_PRICES } from "@/lib/site";
 
 export default function ProductCard({ product }) {
   return (
@@ -18,10 +19,11 @@ export default function ProductCard({ product }) {
         <h3 className="font-cormorant text-lg leading-tight">{product.name}</h3>
         <p className="text-sm text-[#6a5844] mt-2">{product.detail}</p>
         <div className="mt-3 flex items-center justify-between gap-2">
-          {product.price != null ? (
+          {!HIDE_PRICES && product.price != null ? (
             <span className="font-semibold">£{Number(product.price).toLocaleString("en-GB")}</span>
           ) : (
-            <span className="font-semibold text-gold"></span>
+            // Empty placeholder keeps "Read more" aligned right.
+            <span />
           )}
           <span className="inline-flex items-center gap-1 text-sm text-gold group-hover:text-gold-bright transition-colors">
             Read more

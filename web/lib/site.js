@@ -1,3 +1,7 @@
+// Hard override: hide every product price sitewide, regardless of the admin
+// `hide_price` setting. Set to false to hand control back to that setting.
+export const HIDE_PRICES = true;
+
 // Central business / contact details used across the storefront.
 export const site = {
   name: "Micro Art LTD",

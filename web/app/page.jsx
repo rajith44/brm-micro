@@ -13,6 +13,38 @@ const igImages = Array.from({ length: 10 }, (_, i) =>
   `https://placehold.co/300x300?text=IG+${i + 1}`
 );
 
+// In-house workshop services highlighted on the home page.
+const workshopHighlights = [
+  {
+    label: "Repairs & Restoration",
+    title: "Jewellery Repair",
+    text: "Bring a treasured piece back to life. Resizing, soldering, reshaping and polishing — carried out in-house and fully guaranteed.",
+    points: [
+      "Ring resizing from £30 — polish included",
+      "Chain soldering & repair from £40",
+      "Most repairs done in 2–12 working days",
+    ],
+    from: "£20",
+    img: "/images/repair.png",
+    href: "/services",
+    cta: "View Services & Prices",
+  },
+  {
+    label: "Learn The Craft",
+    title: "Jewelry Making Classes",
+    text: "Make your own piece from scratch. Hands-on training at our workshop for beginners, hobbyists and working professionals alike.",
+    points: [
+      "2-hour and 3-hour sessions",
+      "Private lessons available on request",
+      "Morning & afternoon slots — flexible hours",
+    ],
+    from: "£22",
+    img: "/images/classes.png",
+    href: "/jewelry-classes",
+    cta: "Explore Classes",
+  },
+];
+
 export default async function Home() {
   const [gemCategories, jewelryCategories, gemstones, jewelry, articles, slides, testimonials] = await Promise.all([
     getCategories("gemstone"),
@@ -37,6 +69,65 @@ export default async function Home() {
       <section className="max-w-7xl mx-auto px-4 lg:px-8 py-6">
         <SectionHeading title="Colored Gemstones" subtitle="Exquisite stones from the heart of Ceylon." />
         <ColoredGemstonesCarousel items={gemCategories} />
+      </section>
+
+      {/* Workshop services highlight — Repair & Classes */}
+      <section className="bg-clay mt-10">
+        <div className="max-w-7xl mx-auto px-4 lg:px-8 py-16 lg:py-20">
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <span className="text-xs uppercase tracking-[0.3em] text-gold-muted">At Our Workshop</span>
+            <h2 className="font-cormorant text-4xl lg:text-5xl mt-3 mb-4">More than a jewellery store</h2>
+            <p className="text-[#6a5844] leading-8">
+              Repair a piece you love, or learn to make one yourself — both handled
+              in-house by our master craftsmen.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
+            {workshopHighlights.map((c) => (
+              <div key={c.title} className="group bg-white text-ink rounded-[28px] overflow-hidden flex flex-col">
+                <div className="relative h-64 lg:h-72 overflow-hidden">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={c.img}
+                    alt={c.title}
+                    className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  />
+                  <span className="absolute top-5 left-5 text-[11px] uppercase tracking-[0.22em] bg-cream/95 backdrop-blur text-coffee px-4 py-2 rounded-full">
+                    {c.label}
+                  </span>
+                  <span className="absolute bottom-5 right-5 bg-gold text-white rounded-2xl px-5 py-2 text-center shadow-lg">
+                    <span className="block text-[9px] uppercase tracking-[0.2em] text-white/80">From</span>
+                    <span className="font-cormorant text-2xl leading-none">{c.from}</span>
+                  </span>
+                </div>
+
+                <div className="p-8 lg:p-10 flex flex-col flex-1">
+                  <h3 className="font-cormorant text-3xl mb-3">{c.title}</h3>
+                  <p className="text-[#6a5844] leading-8 mb-6">{c.text}</p>
+
+                  <ul className="space-y-2.5 mb-8">
+                    {c.points.map((p) => (
+                      <li key={p} className="flex items-start gap-3 text-[15px] text-[#43372a]">
+                        <span className="text-gold mt-0.5">✦</span> {p}
+                      </li>
+                    ))}
+                  </ul>
+
+                  <Link
+                    href={c.href}
+                    className="mt-auto inline-flex w-fit items-center gap-2 bg-coffee text-white px-7 py-3 rounded-full font-medium hover:bg-gold transition-colors"
+                  >
+                    {c.cta}
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M13 6l6 6-6 6" />
+                    </svg>
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* Review / trust section */}
